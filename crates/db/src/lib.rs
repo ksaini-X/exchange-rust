@@ -1,14 +1,18 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+use std::env;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+pub mod models;
+pub mod schema;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+use diesel::{
+    pg::PgConnection,
+    r2d2::{self, ConnectionManager},
+};
+use dotenvy::dotenv;
+
+pub fn connection() -> r2d2::Pool<ConnectionManager<PgConnection>> {
+    dotenv().ok();
+
+    let db = env::var("DATABASE_URL").expect("DB should exist");
+    let manager = ConnectionManager::<PgConnection>::new(db);
+    r2d2::Pool::builder().build(manager).expect("Fail")
 }
