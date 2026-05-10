@@ -4,3 +4,9 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+actix-web = "4.13.0"
+diesel = "2.3.9"
+log = "0.4.29"
+serde = "1.0.228"
+uuid = "1.23.1"
+validator = "0.20.0"
