@@ -12,23 +12,23 @@ pub enum Side {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Order {
-    order_id: String,
-    user_id: String,
-    price: Decimal,
-    quantity: Decimal,
-    filled_quantity: Decimal,
-    side: Side,
-    status: OrderStatus,
-    timestamp: i64,
+    pub order_id: String,
+    pub user_id: String,
+    pub price: Decimal,
+    pub quantity: Decimal,
+    pub filled_quantity: Decimal,
+    pub side: Side,
+    pub status: OrderStatus,
+    pub timestamp: i64,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Fill {
-    trade_id: u64,
-    maker_order_id: String,
-    taker_order_id: String,
-    price: Decimal,
-    quantity: Decimal,
+    pub trade_id: u64,
+    pub maker_order_id: String,
+    pub taker_order_id: String,
+    pub price: Decimal,
+    pub quantity: Decimal,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -40,7 +40,7 @@ pub enum OrderStatus {
 }
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Orderbook {
-    market: String,
+    pub market: String,
     pub bids: BTreeMap<Decimal, Vec<Order>>,
     pub asks: BTreeMap<Decimal, Vec<Order>>,
     pub orders: HashMap<String, Order>,
@@ -273,9 +273,35 @@ impl Orderbook {
             .filter(|order| order.user_id == user_id)
             .collect()
     }
+
+    pub fn ticker(&self) -> &str {
+        &self.market
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    pub fn id() -> String {
+        uuid::Uuid::new_v4().to_string()
+    }
+
+    #[test]
+    fn add_order() {
+        let mut book = Orderbook::new("TEST".to_string());
+        let order = Order {
+            order_id: id(),
+            user_id: id(),
+            price: dec!(100),
+            quantity: dec!(10),
+            filled_quantity: dec!(0),
+            side: Side::Ask,
+            status: OrderStatus::Pending,
+            timestamp: Utc::now().timestamp(),
+        };
+
+        let (fills, executed_quantity) = book.add_order(order).unwrap();
+        assert_eq!(fills.len(), 0);
+        assert_eq!(executed_quantity, dec!(0));
+    }
 }
