@@ -12,7 +12,7 @@ pub enum Side {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Order {
-    order_id: u64,
+    order_id: String,
     user_id: u64,
     price: Decimal,
     quantity: Decimal,
@@ -25,8 +25,8 @@ pub struct Order {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Fill {
     trade_id: u64,
-    maker_order_id: u64,
-    taker_order_id: u64,
+    maker_order_id: String,
+    taker_order_id: String,
     price: Decimal,
     quantity: Decimal,
 }
@@ -87,6 +87,28 @@ impl Orderbook {
         }
 
         (depth_asks, depth_bids)
+    }
+
+    pub fn cancel_order(&mut self, order_id: String) -> Result<&Order, String> {
+        let order = self.orders.get(&order_id);
+        match order {
+            Some(order) => {
+                match order.side {
+                    Side::Ask => {
+                        self.asks
+                            .entry(order.price)
+                            .and_modify(|asks| asks.retain(|order| order.order_id != order_id));
+                    }
+                    Side::Bid => {
+                        self.bids
+                            .entry(order.price)
+                            .and_modify(|bids| bids.retain(|order| order.order_id != order_id));
+                    }
+                }
+                Ok(order)
+            }
+            None => Err("Order not found".to_string()),
+        }
     }
 
     pub fn snapshot(&mut self) -> Orderbook {
@@ -191,8 +213,8 @@ impl Orderbook {
                         price: ask.price,
                         quantity: filled_quantity,
                         trade_id: self.last_trade_id,
-                        maker_order_id: ask.order_id,
-                        taker_order_id: order.order_id,
+                        maker_order_id: ask.order_id.clone(),
+                        taker_order_id: order.order_id.clone(),
                     });
                 }
             }
@@ -233,8 +255,8 @@ impl Orderbook {
                         price: bid.price,
                         quantity: filled_quantity,
                         trade_id: self.last_trade_id,
-                        maker_order_id: bid.order_id,
-                        taker_order_id: order.order_id,
+                        maker_order_id: bid.order_id.clone(),
+                        taker_order_id: order.order_id.clone(),
                     });
                 }
             }
