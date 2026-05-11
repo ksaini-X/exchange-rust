@@ -5,8 +5,9 @@ edition = "2024"
 
 [dependencies]
 actix-web = "4.13.0"
-diesel = "2.3.9"
+diesel ={version =  "2.3.9", features = ["postgres, r2d2"]}
 log = "0.4.29"
-serde = "1.0.228"
-uuid = "1.23.1"
+serde = {version = "1.0.228", features = ["derive"]}
+uuid = {version = "1.23.1", }
 validator = "0.20.0"
+db = {path = "../db"}

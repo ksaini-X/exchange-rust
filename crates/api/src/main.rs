@@ -1,6 +1,7 @@
 use actix_web::{App, HttpServer, middleware, web};
-
+use db::connection;
 #[actix_web::main]
 async fn main() {
-    HttpServer::new(move || App::new().app_data(data))
+    let pool = web::Data::new(connection());
+    HttpServer::new(move || App::new().app_data(pool.clone()))
 }
