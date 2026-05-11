@@ -274,3 +274,8 @@ impl Orderbook {
             .collect()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+}
