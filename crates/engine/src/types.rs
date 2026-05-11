@@ -13,7 +13,7 @@ pub enum Side {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Order {
     order_id: String,
-    user_id: u64,
+    user_id: String,
     price: Decimal,
     quantity: Decimal,
     filled_quantity: Decimal,
@@ -263,5 +263,14 @@ impl Orderbook {
             bids.retain(|bid| bid.filled_quantity < bid.quantity);
         }
         Ok((fills, executed_quantity))
+    }
+
+    pub fn get_open_orders(&self, user_id: String) -> Vec<&Order> {
+        self.asks
+            .values()
+            .chain(self.asks.values())
+            .flat_map(|orders| orders.iter())
+            .filter(|order| order.user_id == user_id)
+            .collect()
     }
 }
