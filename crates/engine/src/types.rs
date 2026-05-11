@@ -41,9 +41,9 @@ pub enum OrderStatus {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Orderbook {
     market: String,
-    pub bids: BTreeMap<Decimal, Vec<Order>>, // {99.00 : [abc,red,aes...], 98 : [das,ewa,dra....]}
-    pub asks: BTreeMap<Decimal, Vec<Order>>, // {100.00 : [abc,red,aes...], 101 : [das,ewa,dra....]}
-    pub orders: HashMap<String, Order>,      // {abc : Order{}, def:Order{}, ijk :Order{}....}
+    pub bids: BTreeMap<Decimal, Vec<Order>>,
+    pub asks: BTreeMap<Decimal, Vec<Order>>,
+    pub orders: HashMap<String, Order>,
     pub last_trade_id: u64,
     pub last_traded_price: Decimal,
     pub last_snapshot_timestamp: i64,
@@ -60,6 +60,33 @@ impl Orderbook {
             last_traded_price: dec!(0),
             last_snapshot_timestamp: 0,
         }
+    }
+
+    pub fn get_depth(&self) -> (Vec<(Decimal, Decimal)>, Vec<(Decimal, Decimal)>) {
+        let mut depth_bids: Vec<(Decimal, Decimal)> = Vec::new();
+        let mut depth_asks: Vec<(Decimal, Decimal)> = Vec::new();
+
+        for (price, orders) in self.bids.iter() {
+            let accumlator = dec!(0);
+            let total_quamtituy_for_price = orders
+                .iter()
+                .fold(accumlator, |accumlator: Decimal, order| {
+                    accumlator + order.quantity
+                });
+            depth_bids.push((*price, total_quamtituy_for_price));
+        }
+
+        for (price, orders) in self.asks.iter() {
+            let accumlator = dec!(0);
+            let total_quamtituy_for_price = orders
+                .iter()
+                .fold(accumlator, |accumlator: Decimal, order| {
+                    accumlator + order.quantity
+                });
+            depth_asks.push((*price, total_quamtituy_for_price));
+        }
+
+        (depth_asks, depth_bids)
     }
 
     pub fn snapshot(&mut self) -> Orderbook {
