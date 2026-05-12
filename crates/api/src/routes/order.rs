@@ -11,7 +11,7 @@ pub fn config(config: &mut web::ServiceConfig) {
     config.service(
         web::scope("/orders")
             .route("/open", web::get().to(get_open_orders))
-            .route("/{order_id}", web::delete().to(cancel_order))
+            .route("/", web::delete().to(cancel_order))
             .route("/create", web::post().to(create_order)),
     );
 }
