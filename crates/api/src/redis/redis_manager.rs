@@ -1,7 +1,7 @@
-use std::sync::Mutex;
-
+use once_cell::sync::Lazy;
 use redis::{Client, Commands, RedisResult};
 use serde::Serialize;
+use std::sync::Mutex;
 
 use crate::types::redis::{
     incoming_message_to_engine::IncomingMessageFromEngine,

@@ -61,7 +61,13 @@ impl Engine {
                 price,
                 quantity,
                 side,
-            } => {}
+            } => {
+                let respone = self.create_order(&market, price, quantity, side, user_id);
+                match respone {
+                    Err() => {}
+                    Ok((order_id, fills, executed_quantity)) => {}
+                }
+            }
             IncomingMessageFromAPI::CancelOrder {
                 market,
                 order_id,

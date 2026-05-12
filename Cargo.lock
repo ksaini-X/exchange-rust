@@ -299,6 +299,7 @@ dependencies = [
  "db",
  "diesel",
  "log",
+ "once_cell",
  "redis",
  "serde",
  "serde_json",
@@ -429,12 +430,6 @@ dependencies = [
  "quote",
  "syn 1.0.109",
 ]
-
-[[package]]
-name = "byteorder"
-version = "1.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1fd0f2584146f6f2ef48085050886acf353beff7305ebd1ae69500e27c67f64b"
 
 [[package]]
 name = "bytes"
@@ -612,10 +607,6 @@ dependencies = [
 [[package]]
 name = "db"
 version = "0.1.0"
-dependencies = [
- "diesel",
- "dotenvy",
-]
 
 [[package]]
 name = "deranged"
@@ -655,15 +646,8 @@ version = "2.3.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9940fb8467a0a06312218ed384185cb8536aa10d8ec017d0ce7fad2c1bd882d5"
 dependencies = [
- "bitflags",
- "byteorder",
- "chrono",
  "diesel_derives",
  "downcast-rs",
- "itoa",
- "pq-sys",
- "r2d2",
- "uuid",
 ]
 
 [[package]]
@@ -759,6 +743,7 @@ dependencies = [
  "dotenvy",
  "env_logger",
  "log",
+ "once_cell",
  "rand 0.10.1",
  "redis",
  "rust_decimal",
@@ -1431,17 +1416,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "pq-sys"
-version = "0.7.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "574ddd6a267294433f140b02a726b0640c43cf7c6f717084684aaa3b285aba61"
-dependencies = [
- "libc",
- "pkg-config",
- "vcpkg",
-]
-
-[[package]]
 name = "prettyplease"
 version = "0.2.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1509,17 +1483,6 @@ name = "r-efi"
 version = "6.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f8dcc9c7d52a811697d2151c701e0d08956f92b0e24136cf4cf27b57a6a0d9bf"
-
-[[package]]
-name = "r2d2"
-version = "0.8.10"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "51de85fb3fb6524929c8a2eb85e6b6d363de4e8c48f9e2c2eac4944abc181c93"
-dependencies = [
- "log",
- "parking_lot",
- "scheduled-thread-pool",
-]
 
 [[package]]
 name = "radium"
@@ -1721,15 +1684,6 @@ name = "ryu"
 version = "1.0.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9774ba4a74de5f7b1c1451ed6cd5285a32eddb5cccb8cc655a4e50009e06477f"
-
-[[package]]
-name = "scheduled-thread-pool"
-version = "0.2.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3cbc66816425a074528352f5789333ecff06ca41b36b0b0efdfbb29edc391a19"
-dependencies = [
- "parking_lot",
-]
 
 [[package]]
 name = "scopeguard"
@@ -2152,12 +2106,6 @@ dependencies = [
  "serde_json",
  "url",
 ]
-
-[[package]]
-name = "vcpkg"
-version = "0.2.15"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "accd4ea62f7bb7a82fe23066fb0957d48ef677f6eeb8215f372f52e48bb32426"
 
 [[package]]
 name = "version_check"

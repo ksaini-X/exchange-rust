@@ -13,3 +13,4 @@ validator = "0.20.0"
 db = {path = "../db"}
 redis = "1.2.1"
 serde_json = "1.0.149"
+once_cell = "1.21.4"
