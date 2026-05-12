@@ -1,3 +1,5 @@
+use std::sync::Mutex;
+
 use redis::{Client, Commands, RedisResult};
 use serde::Serialize;
 
@@ -8,17 +10,19 @@ use crate::types::redis::{
 
 #[derive(Serialize)]
 pub struct Message {
-    pub user_id: Strin,
-    pub client_id: String,
-    pub message: OutgoingMessageToEngine,
+    user_id: Strin,
+    client_id: String,
+    message: OutgoingMessageToEngine,
 }
 
 pub struct RedisManager {
-    receiver: Client,
-    publisher: Client,
+    pub receiver: Client,
+    pub publisher: Client,
 }
 
-static INSTANCE: Lazy<Mutex<RedisManager>> = Lazy::new(|| Mutex::new(RedisManager::new()));
+static INSTANCE: Lazy<Mutex<RedisManager>> = Lazy::new(|| {
+    return Mutex::new(RedisManager::new());
+});
 
 impl RedisManager {
     fn new() -> Self {

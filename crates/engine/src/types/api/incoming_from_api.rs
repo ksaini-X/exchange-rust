@@ -19,4 +19,8 @@ pub enum IncomingMessageFromAPI {
     GetDepth {
         market: String,
     },
+    GetOpenOrders {
+        user_id: String,
+        market: String,
+    },
 }
