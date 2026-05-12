@@ -299,7 +299,9 @@ dependencies = [
  "db",
  "diesel",
  "log",
+ "redis",
  "serde",
+ "serde_json",
  "uuid",
  "validator",
 ]

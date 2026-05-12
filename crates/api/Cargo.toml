@@ -11,3 +11,5 @@ serde = {version = "1.0.228", features = ["derive"]}
 uuid ="1.23.1"
 validator = "0.20.0"
 db = {path = "../db"}
+redis = "1.2.1"
+serde_json = "1.0.149"
