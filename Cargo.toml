@@ -2,5 +2,5 @@
 
 
 resolver = "2"
-members = ["crates/api", "crates/db", "crates/engine"]
+members = ["crates/api", "crates/engine"]
 
